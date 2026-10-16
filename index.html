@@ -3,28 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Perspicace OS - Depuis Kaolack</title>
+<title>Perspicace OS - L'OS de l'Afrique</title>
 <style>
-body{font-family:Arial;text-align:center;padding:40px 20px;background:#f8f9fa;color:#222}
-h1{font-size:2.5em;margin-top:40px}
-.links a{color:#0a58ca;text-decoration:none;font-weight:bold;margin:0 5px}
-.btn{display:inline-block;background:#000;color:#fff;padding:16px 30px;border-radius:12px;font-size:18px;margin-top:30px;text-decoration:none;cursor:pointer}
-footer{margin-top:50px;color:#666}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Arial;background:#fff;color:#111}
+header{background:linear-gradient(90deg,#00853f 33%,#fdef42 33%,#fdef42 66%,#e31e24 66%);padding:6px;text-align:center}
+.hero{text-align:center;padding:70px 20px 50px;background:radial-gradient(circle at top,#f8f9fa,#fff)}
+.hero h1{font-size:3.2em;letter-spacing:-1px}
+.hero h1 span{color:#00853f}
+.hero p{font-size:1.2em;color:#555;margin-top:12px}
+.badge{display:inline-block;background:#000;color:#fff;padding:8px 18px;border-radius:30px;font-size:14px;margin-top:18px}
+.btn{display:inline-block;background:#111;color:#fff;padding:18px 36px;border-radius:14px;font-size:18px;font-weight:700;text-decoration:none;margin-top:28px;box-shadow:0 10px 25px rgba(0,0,0,.2);transition:.2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 15px 30px rgba(0,0,0,.3)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;max-width:900px;margin:50px auto;padding:0 20px}
+.card{border:1px solid #eee;border-radius:18px;padding:22px;text-align:left;background:#fff}
+.card h3{margin-bottom:8px}
+footer{text-align:center;padding:40px 20px;color:#888;background:#fafafa;margin-top:40px;border-top:1px solid #eee}
 </style>
 </head>
 <body>
-<h1>Perspicace OS</h1>
-<p>Le premier systeme intelligent concu a<br>Kaolack, Senegal</p>
-<p><b>Par Oumar - Depuis Kaolack pour l'Afrique</b></p>
-
-<div class="links">
-<a href="#">Accueil</a> | <a href="#">A propos</a> | <a href="#">Contact</a> | <a href="#">Confidentialite</a>
+<header></header>
+<div class="hero">
+<h1><span>Perspicace</span> OS</h1>
+<p>Le premier système intelligent conçu à Kaolack, Sénégal</p>
+<div class="badge">🇸🇳 Par Oumar - Depuis Kaolack pour l'Afrique</div>
+<br>
+<a href="data:text/plain;charset=utf-8,Bienvenue%20dans%20Perspicace%20OS%0AConcu%20a%20Kaolack%20par%20Oumar%0AVersion%202026%20PRO%20Edition%0A%0AMerci%20d'avoir%20telecharge%20!" download="Perspicace-OS-PRO.txt" class="btn">⬇️ Télécharger Perspicace OS</a>
+<p style="margin-top:12px;color:#777;font-size:14px">Version 2026 - PRO Edition - 4.2 MB</p>
 </div>
 
-<a href="data:text/plain;charset=utf-8,Bienvenue%20dans%20Perspicace%20OS%0AConcu%20a%20Kaolack%20par%20Oumar%0AVersion%202026" download="Perspicace-OS.txt" class="btn">Telecharger Perspicace OS</a>
+<div class="grid">
+<div class="card"><h3>⚡ Rapide</h3><p>Optimisé pour l'Afrique, fonctionne même avec une faible connexion.</p></div>
+<div class="card"><h3>🔒 Sécurisé</h3><p>Conçu à Kaolack, pensé pour protéger tes données.</p></div>
+<div class="card"><h3>🌍 100% Africain</h3><p>Le premier OS qui comprend nos réalités.</p></div>
+</div>
 
 <footer>
-<p>© 2026 Perspicace OS - Kaolack, Senegal<br>De Kaolack pour l'Afrique 🇸🇳</p>
+<p>© 2026 Perspicace OS - Kaolack, Sénégal<br>De Kaolack pour l'Afrique 🇸🇳<br><br>perspicace-os.vercel.app</p>
 </footer>
 </body>
 </html>
