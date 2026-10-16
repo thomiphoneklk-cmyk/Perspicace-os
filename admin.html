@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADMIN - Perspicace OS</title>
+<style>
+body{font-family:Arial;background:#111;color:#fff;padding:20px;max-width:600px;margin:auto}
+h1{text-align:center;margin-bottom:20px}
+input,textarea{width:100%;padding:14px;margin:8px 0 16px;border-radius:10px;border:none;font-size:16px}
+textarea{height:120px}
+button{width:100%;padding:16px;background:#00853f;color:#fff;border:none;border-radius:12px;font-size:18px;font-weight:700}
+.card{background:#222;border-radius:14px;padding:15px;margin-top:15px;border-left:4px solid #00853f}
+.result{background:#fff;color:#111;padding:15px;border-radius:12px;margin-top:20px;word-break:break-all}
+</style>
+</head>
+<body>
+<h1>🔐 ADMIN - C'est toi qui décris !</h1>
+
+<label>Nom du produit / vidéo :</label>
+<input id="titre" placeholder="Ex: Parfum Dubaï Oud">
+
+<label>Ta description (avec TES mots) :</label>
+<textarea id="desc" placeholder="Ex: Ce parfum sent très bon, il dure 24h, je l'ai ramené de Dubaï, les clients de Kaolack l'adorent..."></textarea>
+
+<label>Prix :</label>
+<input id="prix" placeholder="Ex: 4000 F">
+
+<label>Lien image ou vidéo (facultatif):</label>
+<input id="img" placeholder="Colle un lien d'image">
+
+<button onclick="ajouter()">✅ AJOUTER - C'est moi qui décris !</button>
+
+<div id="liste"></div>
+
+<script>
+function ajouter(){
+ let t=document.getElementById('titre').value;
+ let d=document.getElementById('desc').value;
+ let p=document.getElementById('prix').value;
+ if(!t||!d){alert("Écris le nom et TA description !");return}
+ let produits=JSON.parse(localStorage.getItem('mes_produits')||'[]');
+ produits.push({t,d,p,date:new Date().toLocaleString()});
+ localStorage.setItem('mes_produits',JSON.stringify(produits));
+ afficher();
+ document.getElementById('titre').value='';
+ document.getElementById('desc').value='';
+}
+function afficher(){
+ let produits=JSON.parse(localStorage.getItem('mes_produits')||'[]');
+ let html='';
+ produits.reverse().forEach(pr=>{
+  html+=`<div class="card"><h3>${pr.t} - ${pr.p}</h3><p>${pr.d}</p><small>${pr.date}</small></div>`;
+ });
+ document.getElementById('liste').innerHTML=html;
+}
+afficher();
+</script>
+</body>
+</html>
