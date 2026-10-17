@@ -1,0 +1,5 @@
+robotsUser-agent: *
+Allow: /
+
+Sitemap: https://thomiphoneklk-cmyk.github.io/Perspicace-os/sitemap.xml
+Sitemap: https://perspicace-os.vercel.app/sitemap.xml
