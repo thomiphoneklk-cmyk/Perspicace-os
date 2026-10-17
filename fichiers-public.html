@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fichiers — Perspicace OS</title>
+<style>
+:root{color-scheme:dark;--bg:#071126;--panel:#101d3b;--line:#2a3e70;--text:#f3f6ff;--muted:#aab8dc;--blue:#168cff;--violet:#8d5bff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top right,#20205a,var(--bg) 50%);color:var(--text);font:16px system-ui,sans-serif}
+header,main{max-width:1000px;margin:auto;padding:20px}header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+a,button{color:white}a.button,button{background:linear-gradient(110deg,var(--blue),var(--violet));border:0;border-radius:12px;padding:11px 15px;text-decoration:none;font-weight:700;cursor:pointer}
+h1{margin-bottom:4px}.muted{color:var(--muted)}.notice{padding:14px;border:1px solid var(--line);background:#101d3b;border-radius:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:18px}.item{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;overflow-wrap:anywhere}.item h2{font-size:1.05rem}.tag{color:#bdaaff;font-size:.85rem}
+</style></head>
+<body>
+<header><div><strong>Perspicace OS</strong><div class="muted">Bibliothèque publique</div></div><a class="button" href="index.html">Accueil</a></header>
+<main>
+<h1>Fichiers disponibles</h1><p class="muted">Documents, photos, vidéos, applications et autres ressources publiées.</p>
+<div id="notice" class="notice">La bibliothèque est prête côté interface. Le stockage en ligne doit être configuré avant que les fichiers apparaissent à tous les visiteurs.</div>
+<div id="files" class="grid"></div>
+</main>
+<script>
+/* Démonstration uniquement : données locales de ce navigateur. */
+const demo = [];
+const wrap = document.getElementById('files');
+if (!demo.length) {
+  const p = document.createElement('p'); p.className='muted'; p.textContent='Aucun fichier public pour le moment.';
+  wrap.appendChild(p);
+} else {
+  demo.forEach(f=>{
+    const card=document.createElement('article'); card.className='item';
+    const title=document.createElement('h2'); title.textContent=f.name;
+    const type=document.createElement('div'); type.className='tag'; type.textContent=f.type;
+    const desc=document.createElement('p'); desc.textContent=f.description||'';
+    const link=document.createElement('a'); link.className='button'; link.href=f.url; link.textContent='Ouvrir / télécharger'; link.rel='noopener';
+    card.append(title,type,desc,link); wrap.appendChild(card);
+  });
+}
+</script></body></html>

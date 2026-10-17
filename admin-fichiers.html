@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Administration des fichiers — Perspicace OS</title>
+<style>
+body{margin:0;background:#080d20;color:#eef3ff;font:16px Arial,sans-serif;padding:20px}
+main{max-width:650px;margin:25px auto;background:#111a35;padding:22px;border-radius:18px}
+h1{color:#80b9ff}label{display:block;margin-top:15px}
+input,select,textarea,button{box-sizing:border-box;width:100%;padding:12px;margin-top:7px;border-radius:8px;border:1px solid #43517a;background:#0b132b;color:white}
+button{background:#2369df;border:0;font-weight:bold;margin-top:18px}
+.muted{color:#bdc8e4;font-size:14px}#status{white-space:pre-wrap}
+</style>
+</head>
+<body><main>
+<h1>Perspicace OS</h1><h2>Administration des fichiers</h2>
+<p class="muted">Connecte-toi avec le compte administrateur Supabase autorisé.</p>
+<section id="login">
+<label>Email administrateur</label><input id="email" type="email" autocomplete="username">
+<label>Mot de passe</label><input id="password" type="password" autocomplete="current-password">
+<button id="loginBtn">Se connecter</button>
+</section>
+<section id="manager" hidden>
+<p id="who"></p><button id="logoutBtn">Se déconnecter</button>
+<hr>
+<label>Nom du fichier</label><input id="name" placeholder="Ex. Catalogue Perspicace OS">
+<label>Catégorie</label>
+<select id="category"><option>PDF et documents</option><option>Photos</option><option>Vidéos</option><option>Applications APK</option><option>Autres fichiers</option></select>
+<label>Description</label><textarea id="description" rows="3" placeholder="Description pour les visiteurs"></textarea>
+<label>Fichier à envoyer</label><input id="file" type="file">
+<label><input id="publish" type="checkbox" style="width:auto"> Publier dès l’envoi</label>
+<button id="uploadBtn">Envoyer le fichier</button>
+</section>
+<p id="status" role="status"></p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script>
+const status=document.getElementById('status');
+const client=window.supabase.createClient(window.PERSPI_SUPABASE_URL,window.PERSPI_SUPABASE_ANON_KEY);
+const login=document.getElementById('login'),manager=document.getElementById('manager');
+function say(t){status.textContent=t}
+async function refresh(){
+ const {data:{session}}=await client.auth.getSession();
+ login.hidden=!!session; manager.hidden=!session;
+ if(session) document.getElementById('who').textContent='Connecté : '+session.user.email;
+}
+document.getElementById('loginBtn').onclick=async()=>{
+ say('Connexion en cours…');
+ const {error}=await client.auth.signInWithPassword({
+  email:document.getElementById('email').value.trim(),
+  password:document.getElementById('password').value
+ });
+ if(error){say('Connexion refusée : '+error.message);return}
+ say('Connexion réussie.'); await refresh();
+};
+document.getElementById('logoutBtn').onclick=async()=>{
+ await client.auth.signOut();say('Déconnecté.');await refresh();
+};
+document.getElementById('uploadBtn').onclick=async()=>{
+ const {data:{session}}=await client.auth.getSession();
+ if(!session){say('Connecte-toi d’abord.');return}
+ const file=document.getElementById('file').files[0];
+ if(!file){say('Choisis un fichier.');return}
+ const name=document.getElementById('name').value.trim()||file.name;
+ const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+ const path=Date.now()+'_'+safe;
+ const button=document.getElementById('uploadBtn');button.disabled=true;
+ try{
+  say('Envoi du fichier en cours…');
+  const {error:upError}=await client.storage.from('perspicace-fichiers').upload(path,file,{upsert:false});
+  if(upError)throw upError;
+  const {error:dbError}=await client.from('public_files').insert({
+   name,description:document.getElementById('description').value.trim(),
+   category:document.getElementById('category').value,
+   storage_path:path,mime_type:file.type||null,size_bytes:file.size,
+   is_published:document.getElementById('publish').checked
+  });
+  if(dbError){
+   await client.storage.from('perspicace-fichiers').remove([path]);
+   throw dbError;
+  }
+  say('Fichier envoyé avec succès ! '+(document.getElementById('publish').checked?'Il est publié.':'Il reste privé jusqu’à sa publication.'));
+  document.getElementById('name').value='';
+  document.getElementById('description').value='';
+  document.getElementById('file').value='';
+  document.getElementById('publish').checked=false;
+ }catch(e){say('Erreur : '+e.message)}
+ finally{button.disabled=false}
+};
+refresh();
+</script>
+</body></html>
